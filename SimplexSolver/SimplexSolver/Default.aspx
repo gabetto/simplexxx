@@ -52,7 +52,7 @@
                                 <asp:ListItem Text="Zmax" Value="0" />
                                 <asp:ListItem Text="Zmin" Value="1" />
                             </asp:DropDownList><span class="mx-2">=</span>
-                            <asp:TextBox CssClass="form-control" ID="txtEqBase" runat="server" placeholder="Função objetiva"></asp:TextBox>
+                            <asp:TextBox CssClass="form-control" ID="txtEqBase" runat="server" placeholder="Função objetiva" required />
                         </div>
                     </div>
                 </div>
@@ -64,7 +64,8 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12" id="restricoes">
-                        <input type="text" class="form-control my-3 inputRestricao" aria-describedby="restricao" placeholder="Restrição do problema">
+                        <input type="text" class="form-control my-3 inputRestricao" aria-describedby="restricao" placeholder="Restrição do problema" required>
+                        <input type="text" class="form-control my-3 inputRestricao" aria-describedby="restricao" placeholder="Restrição do problema" required>
                     </div>
                 </div>
                 <button class="btn btn-sm btn-block btn-dark" type="button" onclick="addInput()">Adicionar</button>
