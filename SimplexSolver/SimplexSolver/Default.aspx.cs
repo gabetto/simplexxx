@@ -14,12 +14,13 @@ namespace SimplexSolver
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            simplex = new Simplex();
 
         }
 
         protected void btnResolverSimplex_Click(object sender, EventArgs e)
         {
+            simplex = new Simplex();
+
             if (txtEqBase.Text == "" || hidenRestricoes.Value == "")
             {
                 MostraErro();
@@ -97,9 +98,16 @@ namespace SimplexSolver
                 eqRestricao = equacoes[i].Split(' ');
                 for (int j = 0; j < eqRestricao.Length; j++)
                 {
-                    if (eqRestricao[j] == "-")
+                    if (eqRestricao[j] == "-" || eqRestricao[j] == "+")
                     {
-                        negativo = true;
+                        if(eqRestricao[j] == "-")
+                        {
+                            negativo = true;
+                        }
+                        else
+                        {
+                            negativo = false;
+                        }
                     }
                     else if (eqRestricao[j] == "<=" || eqRestricao[j] == ">=" || eqRestricao[j] == "=" ||
                         eqRestricao[j] == "<" || eqRestricao[j] == ">")
@@ -113,36 +121,57 @@ namespace SimplexSolver
                     else
                     {
                         String[] separado = System.Text.RegularExpressions.Regex.Split(eqRestricao[j], @"[^\d]");
-                        if (separado[0] != "")
-                        {
-                            double valor = Convert.ToDouble(separado[0]);
+                        double valor;
 
-                            if (negativo)
-                            {
-                                valores.Add(Convert.ToDouble("-" + valor));
-                                negativo = false;
-                            }
-                            else
-                            {
-                                valores.Add(valor);
-                            }
+                        //pega o valor
+                        if (separado[0] == "")
+                        {
+                            valor = Convert.ToDouble("1");
+                        }else if (double.TryParse(separado[0], out valor))
+                        {
+                            valor = Convert.ToDouble(separado[0]);
+                        }
+                        else
+                        {
+                            valor = Convert.ToDouble(separado[0]);
+                        }
+                        //verifica se a string anterior foi um sinal negativo, caso seja, o valor é negativado
+                        if (negativo)
+                        {
+                            valores.Add(Convert.ToDouble("-" + valor));
+                            negativo = false;
+                        }
+                        else
+                        {
+                            valores.Add(valor);
                         }
 
-                        int indiceValor = eqRestricao[j].IndexOf(separado[0]);
-                        string variavel = eqRestricao[j].Substring(indiceValor + 1);
-                        if (variavel != "")
+                        //pega a variável
+                        if (separado[0] == "")
                         {
-                            variaveis.Add(variavel);
+                            string variavel = eqRestricao[j];
+                            if (variavel != "")
+                            {
+                                variaveis.Add(variavel);
+                            }
+                        }
+                        else
+                        {
+                            int indiceValor = eqRestricao[j].IndexOf(separado[0]);
+                            string variavel = eqRestricao[j].Substring(indiceValor + 1);
+                            if (variavel != "")
+                            {
+                                variaveis.Add(variavel);
+                            }
                         }
                     }
-                    //pega os valores da equação e monta a restriçao
-                    arrayVariaveis = variaveis.ToArray(typeof(string)) as string[];
-                    arrayValores = valores.ToArray(typeof(double)) as double[];
-
-                    restricao = new Restricao(arrayValores, arrayVariaveis, sinalRestricaoo, resultadoRestricao);
-                    simplex.Restricoes.Add(restricao);
                 }
+                //pega os valores da equação e monta a restriçao
+                arrayVariaveis = variaveis.ToArray(typeof(string)) as string[];
+                arrayValores = valores.ToArray(typeof(double)) as double[];
 
+                restricao = new Restricao(arrayValores, arrayVariaveis, sinalRestricaoo, resultadoRestricao);
+                simplex.Restricoes.Add(restricao);
             }
 
             //Normaliza e monta o quadro
