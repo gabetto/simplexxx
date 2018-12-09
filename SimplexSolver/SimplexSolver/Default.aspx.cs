@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using System.Web.UI;
 
 namespace SimplexSolver
@@ -104,8 +105,9 @@ namespace SimplexSolver
                     }
                     else
                     {
-                        int indiceValorFuncObjetiva = eqFuncObjetiva[k].IndexOf(separadoObjetiva[0]);
-                        variavelFuncObjetiva = eqFuncObjetiva[k].Substring(indiceValorFuncObjetiva + 1);
+                        var match = Regex.Match(eqFuncObjetiva[k], @"[^\d]");
+                        int indiceValorFuncObjetiva = eqFuncObjetiva[k].IndexOf(match.Value);
+                        variavelFuncObjetiva = eqFuncObjetiva[k].Substring(indiceValorFuncObjetiva);
                         if (variavelFuncObjetiva != "")
                         {
                             variaveis.Add(variavelFuncObjetiva);
@@ -190,8 +192,9 @@ namespace SimplexSolver
                         }
                         else
                         {
-                            int indiceValor = eqRestricao[j].IndexOf(separado[0]);
-                            string variavel = eqRestricao[j].Substring(indiceValor + 1);
+                            var match = Regex.Match(eqRestricao[j], @"[^\d]");
+                            int indiceValor = eqRestricao[j].IndexOf(match.Value);
+                            string variavel = eqRestricao[j].Substring(indiceValor);
                             if (variavel != "")
                             {
                                 variaveis.Add(variavel);
