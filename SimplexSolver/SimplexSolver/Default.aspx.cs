@@ -52,34 +52,66 @@ namespace SimplexSolver
 
             for (int k = 0; k < eqFuncObjetiva.Length; k++)
             {
-                if (eqFuncObjetiva[k] == "-")
+                if (eqFuncObjetiva[k] == "-" || eqFuncObjetiva[k] == "+")
                 {
-                    negativo = true;
+                    if (eqFuncObjetiva[k] == "-")
+                    {
+                        negativo = true;
+                    }
+                    else
+                    {
+                        negativo = false;
+                    }
                 }
                 else
                 {
                     String[] separadoObjetiva = System.Text.RegularExpressions.Regex.Split(eqFuncObjetiva[k], @"[^\d]");
-                    if (separadoObjetiva[0] != "")
-                    {
-                        double valor = Convert.ToDouble(separadoObjetiva[0]);
+                    double valor;
 
-                        if (negativo)
-                        {
-                            valores.Add(Convert.ToDouble("-" + valor));
-                            negativo = false;
-                        }
-                        else
-                        {
-                            valores.Add(valor);
-                        }
+                    //pega o valor
+                    if (separadoObjetiva[0] == "")
+                    {
+                        valor = Convert.ToDouble("1");
+                    }
+                    else if (double.TryParse(separadoObjetiva[0], out valor))
+                    {
+                        valor = Convert.ToDouble(separadoObjetiva[0]);
+                    }
+                    else
+                    {
+                        valor = Convert.ToDouble(separadoObjetiva[0]);
+                    }
+                    //verifica se a string anterior foi um sinal negativo, caso seja, o valor é negativado
+                    if (negativo)
+                    {
+                        valores.Add(Convert.ToDouble("-" + valor));
+                        negativo = false;
+                    }
+                    else
+                    {
+                        valores.Add(valor);
                     }
 
-                    int indiceValor = eqFuncObjetiva[k].IndexOf(separadoObjetiva[0]);
-                    string variavel = eqFuncObjetiva[k].Substring(indiceValor + 1);
-                    if (variavel != "")
+                    //pega a variável
+                    string variavelFuncObjetiva;
+                    if (separadoObjetiva[0] == "")
                     {
-                        variaveis.Add(variavel);
+                        variavelFuncObjetiva = eqFuncObjetiva[k];
+                        if (variavelFuncObjetiva != "")
+                        {
+                            variaveis.Add(variavelFuncObjetiva);
+                        }
                     }
+                    else
+                    {
+                        int indiceValorFuncObjetiva = eqFuncObjetiva[k].IndexOf(separadoObjetiva[0]);
+                        variavelFuncObjetiva = eqFuncObjetiva[k].Substring(indiceValorFuncObjetiva + 1);
+                        if (variavelFuncObjetiva != "")
+                        {
+                            variaveis.Add(variavelFuncObjetiva);
+                        }
+                    }
+                    
                 }
             }
             arrayVariaveis = variaveis.ToArray(typeof(string)) as string[];
@@ -100,7 +132,7 @@ namespace SimplexSolver
                 {
                     if (eqRestricao[j] == "-" || eqRestricao[j] == "+")
                     {
-                        if(eqRestricao[j] == "-")
+                        if (eqRestricao[j] == "-")
                         {
                             negativo = true;
                         }
@@ -127,7 +159,8 @@ namespace SimplexSolver
                         if (separado[0] == "")
                         {
                             valor = Convert.ToDouble("1");
-                        }else if (double.TryParse(separado[0], out valor))
+                        }
+                        else if (double.TryParse(separado[0], out valor))
                         {
                             valor = Convert.ToDouble(separado[0]);
                         }
@@ -177,6 +210,7 @@ namespace SimplexSolver
             //Normaliza e monta o quadro
             simplex.Normaliza();
             simplex.MontaQuadro();
+            simplex.QuadroSimplex.Iteracao();
 
             lblResultados.Text = "Resultados: \n\n";
             foreach (KeyValuePair<string, double> entry in simplex.Solucao())
