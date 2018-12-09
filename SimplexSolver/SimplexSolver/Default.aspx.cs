@@ -23,6 +23,7 @@ namespace SimplexSolver
             if (txtEqBase.Text == "" || hidenRestricoes.Value == "")
             {
                 MostraErro();
+                return;
             }
 
             //variaveis gerais
@@ -41,7 +42,7 @@ namespace SimplexSolver
             double resultadoRestricao = 0.0f;
             string sinalRestricaoo = "";
             Boolean negativo = false;
-            
+
             //Resolve a função objetiva
             if (cmbTipoFunc.SelectedValue.Equals(1))
             {
@@ -159,7 +160,6 @@ namespace SimplexSolver
         {
             pnlInfo.Visible = true;
             lblMsg.Text = "Os campos não estão preenchidos ou foram preenchidos incorretamente. Preencha-os ou verifique os padrões!";
-            return;
         }
     }
 }
