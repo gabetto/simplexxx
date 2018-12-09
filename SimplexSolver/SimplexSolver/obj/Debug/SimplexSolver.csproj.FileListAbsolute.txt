@@ -66,8 +66,8 @@ C:\Users\Gabriel\Documents\Desenvolvimento\Faculdade\Programação linear\Simple
 C:\Users\Gabriel\Documents\Desenvolvimento\Faculdade\Programação linear\SimplexSolver\SimplexSolver\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
 C:\Users\Gabriel\Documents\Desenvolvimento\Faculdade\Programação linear\SimplexSolver\SimplexSolver\bin\pt-br\System.Web.Optimization.resources.dll
 C:\Users\Gabriel\Documents\Desenvolvimento\Faculdade\Programação linear\SimplexSolver\SimplexSolver\bin\pt-br\Microsoft.AspNet.FriendlyUrls.resources.dll
-C:\Users\Gabriel\Documents\Desenvolvimento\Faculdade\Programação linear\SimplexSolver\SimplexSolver\obj\Debug\SimplexSolver.csprojAssemblyReference.cache
 C:\Users\Gabriel\Documents\Desenvolvimento\Faculdade\Programação linear\SimplexSolver\SimplexSolver\obj\Debug\SimplexSolver.csproj.CoreCompileInputs.cache
 C:\Users\Gabriel\Documents\Desenvolvimento\Faculdade\Programação linear\SimplexSolver\SimplexSolver\obj\Debug\SimplexSolver.csproj.CopyComplete
 C:\Users\Gabriel\Documents\Desenvolvimento\Faculdade\Programação linear\SimplexSolver\SimplexSolver\obj\Debug\SimplexSolver.dll
 C:\Users\Gabriel\Documents\Desenvolvimento\Faculdade\Programação linear\SimplexSolver\SimplexSolver\obj\Debug\SimplexSolver.pdb
+C:\Users\Gabriel\Documents\Desenvolvimento\Faculdade\Programação linear\SimplexSolver\SimplexSolver\obj\Debug\SimplexSolver.csprojAssemblyReference.cache

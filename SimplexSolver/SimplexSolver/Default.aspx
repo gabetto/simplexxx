@@ -3,7 +3,7 @@
 <asp:Content ID="ScriptContent" ContentPlaceHolderID="HeadContent" runat="server">
     <script type="text/javascript">
         function addInput() {
-            $("#restricoes").append("<input type='text' class='form-control my-3 inputRestricao' aria-describedby='restricao' placeholder='Restrição do problema'>")
+            $("#restricoes").append("<div class='form-inline form-group my-3'><input type='text' class='form-control my-3 inputRestricao' aria-describedby='restricao' placeholder='Restrição do problema'><button class='btn btn-danger ml-1' onclick='removeRestricao(this)'>Remover</button></div>")
         }
 
     </script>
@@ -14,6 +14,11 @@
             const values = [...query].map(x => x.value).join('@')
             console.log(values)
             document.getElementById('<%= hidenRestricoes.ClientID %>').value = values
+        }
+    </script>
+    <script>
+        function removeRestricao(element) {
+            element.parentNode.remove();
         }
     </script>
 </asp:Content>
@@ -30,7 +35,9 @@
             <li>Não utilizar espaçõ entre uma variável e seu coeficiente</li>
         </ul>
     </div>
-
+    <asp:Panel ID="pnlInfo" runat="server" CssClass="alert alert-danger" Visible="false" role="alert">
+        <asp:Label ID="lblMsg" runat="server" Text="" />
+    </asp:Panel>
     <div class="card card-body">
         <div class="row">
             <div class="col-md-4 col-sm-12 mt-3">

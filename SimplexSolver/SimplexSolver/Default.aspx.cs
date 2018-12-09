@@ -1,12 +1,8 @@
 ﻿using SimplexSolver.Classes;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
 using System.Collections;
-using System.Text.RegularExpressions;
+using System.Collections.Generic;
+using System.Web.UI;
 
 namespace SimplexSolver
 {
@@ -24,6 +20,11 @@ namespace SimplexSolver
 
         protected void btnResolverSimplex_Click(object sender, EventArgs e)
         {
+            if (txtEqBase.Text == "" || hidenRestricoes.Value == "")
+            {
+                MostraErro();
+            }
+
             //variaveis gerais
             string[] arrayVariaveis;
             double[] arrayValores;
@@ -40,11 +41,14 @@ namespace SimplexSolver
             double resultadoRestricao = 0.0f;
             string sinalRestricaoo = "";
             Boolean negativo = false;
-
-
+            
             //Resolve a função objetiva
-            if (cmbTipoFunc.SelectedValue.Equals(1)) isMaximizacao = false;
-            for(int k = 0; k< eqFuncObjetiva.Length; k++)
+            if (cmbTipoFunc.SelectedValue.Equals(1))
+            {
+                isMaximizacao = false;
+            }
+
+            for (int k = 0; k < eqFuncObjetiva.Length; k++)
             {
                 if (eqFuncObjetiva[k] == "-")
                 {
@@ -70,8 +74,10 @@ namespace SimplexSolver
 
                     int indiceValor = eqFuncObjetiva[k].IndexOf(separadoObjetiva[0]);
                     string variavel = eqFuncObjetiva[k].Substring(indiceValor + 1);
-                    if (variavel != "") variaveis.Add(variavel);
-
+                    if (variavel != "")
+                    {
+                        variaveis.Add(variavel);
+                    }
                 }
             }
             arrayVariaveis = variaveis.ToArray(typeof(string)) as string[];
@@ -79,7 +85,7 @@ namespace SimplexSolver
             funcObjetiva = new FuncaoObjetiva(arrayValores, arrayVariaveis, isMaximizacao);
             simplex.FObjetiva = funcObjetiva;
 
-            
+
             //Resolve as restrições
             for (int i = 0; i < equacoes.Length; i++)
             {
@@ -120,19 +126,22 @@ namespace SimplexSolver
                                 valores.Add(valor);
                             }
                         }
-                        
+
                         int indiceValor = eqRestricao[j].IndexOf(separado[0]);
                         string variavel = eqRestricao[j].Substring(indiceValor + 1);
-                        if (variavel != "") variaveis.Add(variavel);
-                        
+                        if (variavel != "")
+                        {
+                            variaveis.Add(variavel);
+                        }
                     }
-                    
-                }
-                arrayVariaveis = variaveis.ToArray(typeof(string)) as string[];
-                arrayValores = valores.ToArray(typeof(double)) as double[];
+                    //pega os valores da equação e monta a restriçao
+                    arrayVariaveis = variaveis.ToArray(typeof(string)) as string[];
+                    arrayValores = valores.ToArray(typeof(double)) as double[];
 
-                restricao = new Restricao(arrayValores, arrayVariaveis, sinalRestricaoo, resultadoRestricao);
-                simplex.Restricoes.Add(restricao);
+                    restricao = new Restricao(arrayValores, arrayVariaveis, sinalRestricaoo, resultadoRestricao);
+                    simplex.Restricoes.Add(restricao);
+                }
+
             }
 
             //Normaliza e monta o quadro
@@ -144,6 +153,13 @@ namespace SimplexSolver
             {
                 lblResultados.Text += "variável " + entry.Key + " valendo " + entry.Value + "\n ";
             }
+        }
+
+        private void MostraErro()
+        {
+            pnlInfo.Visible = true;
+            lblMsg.Text = "Os campos não estão preenchidos ou foram preenchidos incorretamente. Preencha-os ou verifique os padrões!";
+            return;
         }
     }
 }
