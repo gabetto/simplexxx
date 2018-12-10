@@ -7,7 +7,7 @@ namespace SimplexSolver.Classes
 {
     public class FuncaoObjetiva
     {
-        private Boolean isMaximizacao;
+        public Boolean isMaximizacao { get; }
         public string[] Letras { get; }
         public double[] Valores { get; }
         private Boolean isNormalizada;
@@ -25,12 +25,14 @@ namespace SimplexSolver.Classes
         {
             if (!this.isNormalizada)
             {
-                for (int i = 0; i < this.Valores.Length; i++)
+                if (isMaximizacao)
                 {
-                    this.Valores[i] = -this.Valores[i];
+                    for (int i = 0; i < this.Valores.Length; i++)
+                    {
+                        this.Valores[i] = -this.Valores[i];
+                    }
                 }
-
-                this.isMaximizacao = !this.isMaximizacao;
+                
                 this.isNormalizada = true;
             }
 

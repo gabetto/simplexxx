@@ -29,28 +29,50 @@ namespace SimplexSolver.Classes
                 string[] letras = this.FObjetiva.Letras;
 
                 int j = 0;
-                int i = 0;
-                for (i = 0; i < Restricoes.Count; i++)
+                int k = 0;
+                for (int i = 0; i < Restricoes.Count; i++)
                 {
-                    if (Restricoes[i].Sinal.Equals("=") || Restricoes[i].Sinal.Equals(">="))
+                    if (Restricoes[i].Sinal.Equals("="))
                     {
                         j++;
+                    }
+                    else if (Restricoes[i].Sinal.Equals("<="))
+                    {
+                        k++;
+                    }
+                    else if (Restricoes[i].Sinal.Equals(">="))
+                    {
+                        j++;
+                        k++;
                     }
 
                 }
 
-                QuantF = i;
+                QuantF = k;
                 QuantA = j;
                 int u = 0;
-
+                int r = 0;
                 for (int y = 0; y < Restricoes.Count; y++)
                 {
                     if (Restricoes[y].Sinal.Equals("=") || Restricoes[y].Sinal.Equals(">="))
                     {
                         u++;
                     }
+                    else
+                    {
+                        r++;
+                    }
 
-                    Restricoes[y].Normaliza(QuantF, QuantA, (y + 1), (u + 1), letras);
+                    Restricoes[y].Normaliza(QuantF, QuantA, (r), (u), letras);
+
+                    if (r >= QuantF)
+                    {
+                        r = 0;
+                    }
+                    if(u >= QuantA)
+                    {
+                        u = 0;
+                    }
 
                 }
 
@@ -71,7 +93,15 @@ namespace SimplexSolver.Classes
         public Dictionary<string, double> Solucao()
         {
             Dictionary<string, double> solucao = new Dictionary<string, double>();
-            solucao.Add("Z", this.QuadroSimplex.LinhaZ.Value[this.QuadroSimplex.LinhaZ.Value.Length - 1]);
+            if (this.FObjetiva.isMaximizacao)
+            {
+                solucao.Add("Z", this.QuadroSimplex.LinhaZ.Value[this.QuadroSimplex.LinhaZ.Value.Length - 1]);
+
+            }
+            else
+            {
+                solucao.Add("Z", -this.QuadroSimplex.LinhaZ.Value[this.QuadroSimplex.LinhaZ.Value.Length - 1]);
+            }
 
             foreach (KeyValuePair<string, double[]> entry in QuadroSimplex.Linhas)
             {

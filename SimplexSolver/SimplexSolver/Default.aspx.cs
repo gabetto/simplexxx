@@ -34,7 +34,7 @@ namespace SimplexSolver
 
             //variaveis para função objetiva
             Boolean isMaximizacao = true;
-            string[] eqFuncObjetiva = txtEqBase.Text.Split(' ');
+            string[] eqFuncObjetiva = txtEqBase.Text.Trim().Split(' ');
 
             //variáveis para restrição
             string[] equacoes = hidenRestricoes.Value.Split('@');
@@ -46,9 +46,13 @@ namespace SimplexSolver
             Boolean negativo = false;
 
             //Resolve a função objetiva
-            if (cmbTipoFunc.SelectedValue.Equals(1))
+            if (cmbTipoFunc.SelectedValue == "1")
             {
                 isMaximizacao = false;
+            }
+            else
+            {
+                isMaximizacao = true;
             }
 
             for (int k = 0; k < eqFuncObjetiva.Length; k++)
@@ -128,7 +132,7 @@ namespace SimplexSolver
                 //limpa os valores e variáveis para reaproveitar pra cada restrição
                 valores.Clear();
                 variaveis.Clear();
-
+                equacoes[i] = equacoes[i].Trim();
                 eqRestricao = equacoes[i].Split(' ');
                 for (int j = 0; j < eqRestricao.Length; j++)
                 {
